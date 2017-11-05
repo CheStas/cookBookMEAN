@@ -9,7 +9,8 @@ import { RecipeService } from '../../services/recipes.service';
   providers: [RecipeService]
 })
 export class RecipesItemComponent implements OnInit {
-  @Input() recipe: any[];
+  @Input() recipe;
+  editMode = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +23,30 @@ export class RecipesItemComponent implements OnInit {
         this.recipe = res;
       });
     }
+    console.log(this.recipe);
+  }
+
+  delete() {
+    this.recipeSerice.deleteById(this.recipe._id, res => {
+      console.log(res);
+      if (res.ok) {
+          this.recipe = undefined;
+      } else {
+        console.log(res);
+      }
+    });
+  }
+
+  edit() {
+      if (!this.editMode) {
+          this.editMode = true;
+      } else {
+          console.log(this.recipe);
+          this.recipeSerice.updateRecipe(this.recipe._id, {title: this.recipe.title, description: this.recipe.description}, res => {
+              console.log(res);
+              this.editMode = false;
+          });
+      }
   }
 
 }

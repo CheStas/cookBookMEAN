@@ -30,8 +30,8 @@ module.exports = function (app) {
         });
     }, apiResponse);
 
-    app.put(baseUrl, (req, res, next) => {
-        recipesService.updateItem(req.body.id, req.body, (err, data) => {
+    app.put(baseUrl + ':id', (req, res, next) => {
+        recipesService.updateItem({ _id: req.params.id }, req.body, (err, data) => {
             res.data = data;
             res.err = err;
             next();

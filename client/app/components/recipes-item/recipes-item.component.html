@@ -1,7 +1,15 @@
 <div *ngIf="recipe">
-    <a routerLink="/recipe/{{recipe._id}}">
-        {{recipe.title}}
-    </a>
-    <p>{{recipe.description}}</p>
-    <p>{{recipe.date}}</p>
+    <div class="recipe" *ngIf="!editMode">
+        <a routerLink="/recipe/{{recipe._id}}">
+            {{recipe.title}}
+        </a>
+        <p>{{recipe.description}}</p>
+        <p>{{recipe.date | date: "dd.MM.yy (HH:mm)"}}</p>
+        <button (click)="delete()">delete</button>
+    </div>
+    <div class="editMode" *ngIf="editMode">
+        <input type="text" value="{{recipe.title}}" [(ngModel)]="recipe.title">
+        <textarea cols="30" [(ngModel)]="recipe.description" rows="10"></textarea>
+    </div>
+    <button (click)="edit()">{{!editMode ? 'Edit' : 'Save'}}</button>
 </div>

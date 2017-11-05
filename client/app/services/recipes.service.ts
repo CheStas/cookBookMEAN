@@ -30,4 +30,41 @@ export class RecipeService {
             });
     }
 
+    updateRecipe(id, body, cb) {
+        const sendData = {
+            url: '/api/recipes/' + id,
+            method: 'PUT',
+            body: body
+        };
+
+        this.httpService.sendRequest(sendData)
+        .then(data => {
+            cb(data);
+        });
+    }
+
+    postRecipe(body, cb) {
+        const sendData = {
+            url: '/api/recipes/',
+            method: 'POST',
+            body: body
+        };
+
+        this.httpService.sendRequest(sendData)
+        .then(data => {
+            cb(data);
+        });
+    }
+
+    deleteById(id, cb) {
+        const sendData = {
+            url: '/api/recipes/' + id,
+            method: 'DELETE'
+        };
+
+        this.httpService.sendRequest(sendData)
+        .then(data => {
+            cb(data);
+        });
+    }
 }

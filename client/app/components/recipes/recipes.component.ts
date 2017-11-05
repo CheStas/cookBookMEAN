@@ -10,6 +10,10 @@ import { RecipeService } from '../../services/recipes.service';
 })
 export class RecipesComponent implements OnInit {
     recipes;
+    newRecipe = {
+        title: '',
+        description: ''
+    };
 
     constructor(
         private httpService: HttpService,
@@ -20,5 +24,16 @@ export class RecipesComponent implements OnInit {
         this.recipeService.getRecipes(res => {
             this.recipes = res;
         });
+    }
+
+    sendRecipe() {
+        this.recipeService.postRecipe(this.newRecipe, (res) => {
+            if (res._id) {
+                this.recipes.push(res);
+            } else {
+                console.log(res);
+            }
+        });
+
     }
 }
