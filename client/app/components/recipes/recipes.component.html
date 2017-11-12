@@ -1,10 +1,7 @@
-<div>
-    <div class="item" *ngFor="let item of recipes">
-        <app-recipes-item [recipe]="item"></app-recipes-item>
-    </div>
-    <div class="create">
-        <input type="text" placeholder="recipe name" [(ngModel)]="newRecipe.title">
-        <textarea name="recipe" id="" cols="30" rows="10" [(ngModel)]="newRecipe.description">create new recipe</textarea>
-        <button (click)="sendRecipe()">create recipe</button>
-    </div>
+<h1>Best cook recipes from all world</h1>
+<div class="item" *ngFor="let item of recipes">
+    <a class="item__title" routerLink="/recipe/{{item._id}}">{{item.title}}</a>
+    <span class="item__date">{{item.date | date: "dd.MM.yy (HH:MM)"}}</span>
+    <p class="item__description">{{item.description}}</p>
 </div>
+<a class="button--create"routerLink="/create">Create new recipe</a>

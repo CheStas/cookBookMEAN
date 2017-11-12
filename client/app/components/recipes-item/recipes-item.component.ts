@@ -1,52 +1,62 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RecipeService } from '../../services/recipes.service';
+import { IRecipe } from '../../models/recipe';
 
 @Component({
-  selector: 'app-recipes-item',
-  templateUrl: './recipes-item.component.html',
-  styleUrls: ['./recipes-item.component.css'],
-  providers: [RecipeService]
+    selector: 'app-recipes-item',
+    templateUrl: './recipes-item.component.html',
+    styleUrls: ['./recipes-item.component.scss'],
+    providers: [RecipeService]
 })
 export class RecipesItemComponent implements OnInit {
-  @Input() recipe;
-  editMode = false;
+    recipe: IRecipe;
+    editMode = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private recipeSerice: RecipeService
-  ) { }
+    constructor(
+        private route: ActivatedRoute,
+        private recipeSerice: RecipeService,
+        private router: Router,
+    ) { }
 
-  ngOnInit() {
-    if (!this.recipe) {
-      this.recipeSerice.getRecipeById(this.route.snapshot.paramMap.get('id'), res => {
-        this.recipe = res;
-      });
+    ngOnInit() {
+        this.recipeSerice.getRecipeById(this.route.snapshot.paramMap.get('id')).then(res => {
+            if (res._id) {
+                this.recipe = res;
+            } else {
+                this.router.navigate(['/404']);
+            }
+        });
+        console.log(this.recipe);
     }
-    console.log(this.recipe);
-  }
 
-  delete() {
-    this.recipeSerice.deleteById(this.recipe._id, res => {
-      console.log(res);
-      if (res.ok) {
-          this.recipe = undefined;
-      } else {
-        console.log(res);
-      }
-    });
-  }
+    delete() {
+        this.recipeSerice.deleteById(this.recipe._id).then(res => {
+            console.log(res);
+            if (res.ok) {
+                this.recipe = undefined;
+            } else {
+                // error
+                console.log(res);
+            }
+        });
+    }
 
-  edit() {
-      if (!this.editMode) {
-          this.editMode = true;
-      } else {
-          console.log(this.recipe);
-          this.recipeSerice.updateRecipe(this.recipe._id, {title: this.recipe.title, description: this.recipe.description}, res => {
-              console.log(res);
-              this.editMode = false;
-          });
-      }
-  }
+    edit() {
+        if (!this.editMode) {
+            this.editMode = true;
+        } else {
+            console.log(this.recipe);
+            const body = {
+                title: this.recipe.title,
+                description: this.recipe.description
+            };
+
+            this.recipeSerice.updateRecipe(this.recipe._id, body).then(res => {
+                console.log(res);
+                this.editMode = false;
+            });
+        }
+    }
 
 }

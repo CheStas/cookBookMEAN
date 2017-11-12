@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        flex: 100%;
+        text-align: center;
+    }
+
+    .item {
+        width: 25%;
+        &__title {
+            text-decoration: none;
+        }
+
+        &__date {
+            color: #ccc;
+        }
+
+        &__description {
+        }
+    }
+}

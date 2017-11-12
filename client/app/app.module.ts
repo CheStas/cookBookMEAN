@@ -9,6 +9,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { RecipesItemComponent } from './components/recipes-item/recipes-item.component';
 import { HttpModule } from '@angular/http';
 import { HttpService } from './services/http-service.service';
+import { CreateRecipeComponent } from './components/create-recipe/create-recipe.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { HttpService } from './services/http-service.service';
     AppComponent,
     RecipesComponent,
     PageNotFoundComponent,
-    RecipesItemComponent
+    RecipesItemComponent,
+    CreateRecipeComponent
   ],
   imports: [
     BrowserModule,

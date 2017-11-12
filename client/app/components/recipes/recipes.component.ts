@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http-service.service';
 import { RecipeService } from '../../services/recipes.service';
+import { IRecipe } from '../../models/recipe';
 
 @Component({
     selector: 'app-recipes',
     templateUrl: './recipes.component.html',
-    styleUrls: ['./recipes.component.css'],
+    styleUrls: ['./recipes.component.scss'],
     providers: [HttpService, RecipeService]
 })
 export class RecipesComponent implements OnInit {
-    recipes;
-    newRecipe = {
-        title: '',
-        description: ''
-    };
+    recipes: IRecipe[];
 
     constructor(
         private httpService: HttpService,
@@ -21,19 +18,10 @@ export class RecipesComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.recipeService.getRecipes(res => {
+        this.recipeService.getRecipes().then(res => {
             this.recipes = res;
+            console.log(this.recipes);
         });
     }
 
-    sendRecipe() {
-        this.recipeService.postRecipe(this.newRecipe, (res) => {
-            if (res._id) {
-                this.recipes.push(res);
-            } else {
-                console.log(res);
-            }
-        });
-
-    }
 }

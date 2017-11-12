@@ -1,0 +1,5 @@
+<div class="create">
+    <input type="text" placeholder="recipe name" [(ngModel)]="newRecipe.title">
+    <textarea name="recipe" id="" cols="30" rows="10" [(ngModel)]="newRecipe.description">create new recipe</textarea>
+    <button (click)="sendRecipe()">create recipe</button>
+</div>
